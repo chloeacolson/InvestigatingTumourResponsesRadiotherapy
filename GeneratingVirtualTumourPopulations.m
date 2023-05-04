@@ -8,11 +8,9 @@
 % 0. Define the model parameters
 
     % Anoxic O2 threshold
-    
         c_min = 1e-2;
     
     % Rate of oxygen release from vasculature
-    
         g = 5;
         
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
@@ -20,30 +18,25 @@
 % 1. NL regime
 
     % Specify the seed for the random number generator
-    
         rng(1)
     
     % Define the vascular volume
-    
         V0 = 0.0005;
     
     % Define the threshold value of q1 (q1_threshold) above which 
     % (q1,q3,V0) corresponds to the NL regime for all q1 > q1_threshold 
-    % and all q3 > 0
-    
+    % and all q3 > 0    
         q1_threshold = g*(1/cmin -1)*(V0/(1-V0));
         
     
     % Randomly select q1 and q3 from the uniform distributions
-    % U(q1_threshold,10) and U(0.01,10), respectively
-    
+    % U(q1_threshold,10) and U(0.01,10), respectively   
         q1 = q1_threshold + (10-q1_threshold)*rand(250,1); 
         q3 = 0.01 + (10-0.01)*rand(250,1);
     
 
     % Calculating steady state values for T and c for each (q1,q3,V0)
-    % parameter set
-    
+    % parameter set    
         for i = 1:size(q1,1)
             c_SS(i,1) = (cmin*(q1(i) -3*q3(i)+(g/cmin+q3(i))*V0 + ...
                         sqrt((q1(i)-3*q3(i)+(g/cmin+q3(i))*V0)^2 +...
@@ -53,8 +46,7 @@
         end
     
     % Create table listing the parameter values for the N=250 NL virtual 
-    % tumours
-    
+    % tumours  
         ID = (1:250)';
         V0 = repelem(V0,250,1);
         
@@ -64,24 +56,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%   
 
 % 2. SL regime
-
-    
+ 
     % Specify the seed for the random number generator
-    
         rng(1)
     
-    % Define the vascular volume
-    
+    % Define the vascular volume    
         V0 = 0.005;
     
     % Define the threshold value of q1 (q1_threshold) such that (q1,q3,V0) 
     % corresponds to the SL or BS regimes for all q1 < q1_threshold 
-
         q1_threshold = g*(1/cmin -1)*(V0/(1-V0));   
     
     % Randomly select q1 values from the uniform distribution
-    % U(0.01, q1_threshold) 
-    
+    % U(0.01, q1_threshold)     
         q1 = 0.01 + (q1_threshold-0.01)*rand(250,1);
 
 
@@ -89,9 +76,7 @@
     % a. Define the threshold values q3 (q3_threshold) such that (q1,q3,V0)
     %    corresponds to the SL regime for all q3 <= q3_threshold
     % b. Randomly select a q3 value from the uniform distribution 
-    %    U(0.01,q3_threhold)
-    
-
+    %    U(0.01,q3_threhold)    
         for i = 1:size(q1,1)
             q3_threshold = (-q1(i)+(3*g/cmin-2+q1(i))*V0-(g/cmin)*V0^2)...
                             /(-1+V0)^2 + (2*sqrt(g))/(-1+V0)^2* ...
@@ -110,16 +95,14 @@
         end
 
     % Calculating steady state values for T and c for each (q1,q3,V0)
-    % parameter set
-    
+    % parameter set   
         for i = 1:size(q1,1)
             c_SS(i,1) = V0/(V0 + (q1(i)/g)*(1-V0));
             T_SS(i,1) = 1-V0;
         end 
     
     % Create table listing the parameter values for the N=250 NL virtual 
-    % tumours 
-    
+    % tumours     
         ID = (1:250)';
         V0 = repelem(V0,250,1);
         
@@ -130,22 +113,18 @@
 
 % BS regime
 
-    % Specify the seed for the random number generator
-    
+    % Specify the seed for the random number generator    
         rng(1)
     
-    % Define the vascular volume
-    
+    % Define the vascular volume  
         V0 = 0.00275;
     
     % Define the threshold value of q1 (q1_threshold) such that (q1,q3,V0) 
     % corresponds to the SL or BS regimes for all q1 < q1_threshold 
-
         q1_threshold = g*(1/cmin -1)*(V0/(1-V0));   
     
     % Randomly select q1 values from the uniform distribution
-    % U(0.01, q1_threshold) 
-    
+    % U(0.01, q1_threshold)    
         q1 = 0.01 + (q1_threshold-0.01)*rand(250,1);
 
 
@@ -153,8 +132,7 @@
     % a. Define the threshold values q3 (q3_threshold) such that (q1,q3,V0)
     %    corresponds to the BS regime for all q3 > q3_threshold
     % b. Randomly select a q3 value from the uniform distribution 
-    %    U(q3_threhold,10)
-    
+    %    U(q3_threhold,10)    
         for i = 1:size(q1,1)
             q3_threshold = (-q1(i)+(3*g/cmin-2+q1(i))*V0-(g/cmin)*V0^2)...
                             /(-1+V0)^2 + (2*sqrt(g))/(-1+V0)^2* ...
@@ -167,8 +145,7 @@
         end
        
     % Calculating steady state values for T and c for each (q1,q3,V0)
-    % parameter set
-    
+    % parameter set    
         for i = 1:size(q1,1)
             c_SS(i,1) = (cmin*(q1(i) -3*q3(i)+(g/cmin+q3(i))*V0 + ...
                         sqrt((q1(i)-3*q3(i)+(g/cmin+q3(i))*V0)^2 +...
@@ -178,8 +155,7 @@
         end
     
     % Create table listing the parameter values for the N=250 NL virtual 
-    % tumours
-    
+    % tumours   
         ID = (1:250)';
         V0 = repelem(V0,250,1);
         
